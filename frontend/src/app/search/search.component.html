@@ -1,0 +1,314 @@
+<div class="container mt-4">
+  <!-- Search Bar and Input -->
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="input-group" style="gap: 0">
+        <input 
+          type="text" 
+          class="form-control search-input"
+          placeholder="Please enter an artist name."
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+          (focus)="onInputFocus()"
+          (blur)="onInputBlur()"
+        >
+        <button 
+          class="btn search-btn" 
+          type="button"
+          (click)="onSearch()"
+          [disabled]="!searchQuery.trim()"
+          [ngClass]="{ 'active-btn': isInputFocused }"
+        >
+          <span>Search</span>
+          <div *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+        <button 
+          class="btn clear-btn" 
+          type="button"
+          (click)="onClear()"
+          [ngClass]="{ 'active-btn': isInputFocused }"
+        >
+          Clear
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Artist Cards (Search Results) -->
+  <div class="row mt-4" *ngIf="searchResults.length > 0">
+    <div class="col-12">
+      <div class="d-flex flex-nowrap overflow-auto pb-2">
+        <div 
+          *ngFor="let artist of searchResults"
+          class="card me-3 position-relative"
+          style="width: 18rem; min-width: 18rem;"
+          [ngClass]="{ 'selected-card': selectedArtistId === artist.id }"
+          (click)="onArtistSelect(artist.id)"
+        >
+          <img 
+            [src]="artist.image || 'assets/artsy-logo.svg'" 
+            class="card-img-top" 
+            alt="{{ artist.name }}"
+            style="height: 200px; object-fit: cover;"
+          >
+          <div class="card-body">
+            <h5 class="card-title">{{ artist.name }}</h5>
+          </div>
+          <button
+            *ngIf="(isAuthenticated$ | async)"
+            class="btn btn-light btn-sm ms-2 position-absolute top-0 end-0 rounded-circle mt-1"
+            (click)="toggleFavorite(artist, $event)"
+            style="background-color: #205375;"
+
+          >
+            <i
+              class="bi"
+              [ngClass]="{
+                'bi-star-fill text-warning': isFavorite(artist.id),
+                'bi-star': !isFavorite(artist.id)
+              }"
+            ></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showNoResults" class="alert alert-warning mt-4">
+    No results found.
+  </div>
+</div>
+
+<!-- Inline Artist Detail Section (appears only when an artist is selected) -->
+<div class="container mt-4" *ngIf="selectedArtistId">
+  <!-- Tab Navigation -->
+  <div class="btn-group w-100 d-flex justify-content-center mb-3" role="group" aria-label="Artist Info and Artworks Toggle">
+    <input type="radio" class="btn-check" name="artistTab" id="bioTab" autocomplete="off" [(ngModel)]="uiState.activeTab" value="bio" />
+    <label class="btn btn-custom" for="bioTab">Biography</label>
+    <input type="radio" class="btn-check" name="artistTab" id="worksTab" autocomplete="off" [(ngModel)]="uiState.activeTab" value="works" (change)="onTabChange('works')" />
+    <label class="btn btn-custom" for="worksTab">Artworks</label>
+  </div>
+
+  <!-- Biography Tab -->
+  <!-- Biography Tab -->
+<div *ngIf="uiState.activeTab === 'bio'">
+  <div *ngIf="isBioLoading" class="bio-spinner" style="display: flex; align-items: center; justify-content: center; min-height: 200px;">
+    <div class="spinner-border" style="border-color: #205375; border-right-color: transparent;"></div>
+  </div>
+
+  <div *ngIf="selectedArtist">
+    <div class="row justify-content-center">
+      <!-- Artist Name with inline star button -->
+      <div class="col-12" style="display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+        <h2 style="font-size: 2rem; margin: 0; margin-right: 0.5rem;">
+          {{ selectedArtist.name }}
+        </h2>
+        <!-- STAR ICON next to the artist name, only if logged in -->
+        <button
+          *ngIf="(isAuthenticated$ | async)"
+          class="btn btn-light btn-sm rounded-circle"
+          (click)="toggleFavorite(selectedArtist, $event)"
+          style="background-color: #205375;"
+        >
+          <i
+            class="bi"
+            [ngClass]="{
+              'bi-star-fill text-warning': isFavorite(selectedArtist.id),
+              'bi-star': !isFavorite(selectedArtist.id)
+            }"
+          ></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Nationality and Dates (Centered under the name row) -->
+    <div class="col-12" style="text-align: center; margin-bottom: 1.5rem;">
+      <p style="font-size: 1rem; font-style: italic; color: #666;">
+        <ng-container *ngIf="selectedArtist.nationality">{{ selectedArtist.nationality }}</ng-container>
+        <ng-container *ngIf="selectedArtist.birthday">
+          <span *ngIf="selectedArtist.nationality">, </span>
+          {{ selectedArtist.birthday }}
+        </ng-container>
+        <ng-container *ngIf="selectedArtist.deathday">
+          – {{ selectedArtist.deathday }}
+        </ng-container>
+      </p>
+    </div>
+
+    <!-- Biography Text (Preserving line breaks and justified text) -->
+    <div class="col-12" style="white-space: pre-line; text-align: justify;">
+      <div *ngIf="selectedArtist.biography; else noBio">
+        <p style="margin-bottom: 0;">
+          {{ selectedArtist.biography }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Artworks Tab -->
+<div *ngIf="uiState.activeTab === 'works'">
+  <ng-container *ngIf="isArtworksLoading; else artworksLoaded">
+    <div class="loading-overlay" style="display: flex; align-items: center; justify-content: center; min-height: 200px;">
+      <div class="spinner-border" style="border-color: #205375; border-right-color: transparent;"></div>
+    </div>
+  </ng-container>
+
+  <ng-template #artworksLoaded>
+    <div *ngIf="artworks && artworks.length > 0; else noArtworks">
+      <div class="artworks-grid">
+        <div class="artwork-card" *ngFor="let work of artworks">
+          <img [src]="work.image || 'assets/default-artwork.png'" [alt]="work.title">
+          <div class="artwork-info">
+            <h3>{{ work.title }}</h3>
+            <p *ngIf="work.date">{{ work.date }}</p>
+            <button class="btn-categories w-100" (click)="viewCategories(work)">
+              View Categories
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ng-template #noArtworks>
+      <div class="empty-state">
+        <p>No artworks</p>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>
+
+
+
+  <!-- Similar Artists Section -->
+  <!-- This section is only shown if the user is authenticated and if similar artists data is available -->
+ <!-- Similar Artists Section -->
+<section
+*ngIf="(isAuthenticated$ | async) && selectedArtist?.similarArtists && selectedArtist.similarArtists.length > 0"
+class="mt-4"
+>
+<h3>Similar Artists</h3>
+
+<!-- Make the row horizontally scrollable in one line -->
+<div class="d-flex flex-nowrap overflow-auto pb-2">
+  <!-- Replicate the same card style you used for search results -->
+  <div
+    *ngFor="let artist of selectedArtist.similarArtists"
+    class="card me-3"
+    style="width: 18rem; min-width: 18rem; cursor: pointer;"
+    (click)="onArtistSelect(artist.id)"
+  >
+    <img
+      [src]="artist.thumbnail || 'assets/artsy_logo.svg'"
+      class="card-img-top"
+      alt="{{ artist.name }}"
+      style="height: 200px; object-fit: cover;"
+    >
+    <div class="card-body">
+      <h5 class="card-title">{{ artist.name }}</h5>
+      <!-- Optional: If you want to also display nationality or other fields -->
+      <!--
+      <p *ngIf="artist.nationality" class="card-text">
+        {{ artist.nationality }}
+      </p>
+      -->
+    </div>
+    <button
+    class="btn btn-light btn-sm ms-2 position-absolute top-0 end-0 rounded-circle mt-1"
+    (click)="toggleFavorite(artist, $event)"
+    style="background-color: #205375;"
+
+  >
+    <i
+      class="bi"
+      [ngClass]="{
+        'bi-star-fill text-warning': isFavorite(artist.id),
+        'bi-star': !isFavorite(artist.id)
+      }"
+    ></i>
+  </button>
+  </div>
+</div>
+</section>
+
+</div>
+<!-- 
+  We'll use a basic modal approach that toggles display with [ngClass] and [ngStyle].
+  This is enough to simulate a Bootstrap modal. If you're using NG Bootstrap or another library,
+  you can adapt accordingly.
+-->
+<div
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  [ngClass]="{ show: isCategoryModalOpen }"
+  [ngStyle]="{ display: isCategoryModalOpen ? 'block' : 'none' }"
+  aria-hidden="!isCategoryModalOpen"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      
+      <!-- Header: Artwork Title and Date, plus close button -->
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ selectedArtwork?.title }} 
+          <span *ngIf="selectedArtwork?.date">
+            ({{ selectedArtwork?.date }})
+          </span>
+        </h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeCategoryModal()"></button>
+      </div>
+
+      <!-- Body: Show categories if we have any, else show a "No categories" message -->
+      <div class="modal-body">
+        <ng-container *ngIf="isCategoriesLoading; else categoriesContent">
+          <div class="loading-overlay" style="display: flex; align-items: center; justify-content: center; min-height: 200px;">
+            <div class="spinner-border" style="border-color: #205375; border-right-color: transparent;"></div>
+          </div>
+        </ng-container>
+        <ng-template #categoriesContent>
+          <div class="row" *ngIf="artworkCategories.length > 0; else noCategories">
+            <div class="col-6 col-sm-4 col-md-3 mb-3" *ngFor="let cat of artworkCategories">
+              <div class="card h-100 category-card">
+                <img
+                  [src]="cat.thumbnail || 'assets/artsy_logo.svg'"
+                  class="card-img-top"
+                  [alt]="cat.name"
+                  style="object-fit: cover; height: 140px;"
+                >
+                <div style="background-color: transparent;" class="card-body border text-center p-2">
+                  <p style="color: black;" class="card-text">{{ cat.name }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #noCategories>
+            <div class="alert alert-warning text-center">
+              No categories found.
+            </div>
+          </ng-template>
+        </ng-template>
+      </div>
+
+      <!-- Footer: Close button -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeCategoryModal()">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Dim the background when modal is open -->
+<div
+  class="modal-backdrop fade"
+  [ngClass]="{ show: isCategoryModalOpen }"
+  *ngIf="isCategoryModalOpen"
+>
+</div>
+

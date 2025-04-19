@@ -1,0 +1,33 @@
+.notification-container {
+    position: fixed;       /* Anchor the container to the viewport */
+    top: 4rem;             /* Adjust as needed */
+    right: 1rem;           /* Anchors the container to the top right */
+    z-index: 1050;         /* Ensure it displays on top of other elements */
+    width: 320px;           /* Set width based on your design */
+  
+  
+    .alert {
+        margin-bottom: 0.75rem;
+        animation: slideIn 0.25s ease-out forwards;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1.25rem;
+    
+        .bi {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+    }
+  
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+}

@@ -1,0 +1,9 @@
+<!-- notification.component.html -->
+<div class="notification-container  p-3" style="z-index: 1050;">
+  <div *ngFor="let n of notifications$ | async" 
+       class="alert alert-{{n.type}} alert-dismissible fade show" 
+       role="alert">
+    {{ n.message }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="remove(n.id)"></button>
+  </div>
+</div>

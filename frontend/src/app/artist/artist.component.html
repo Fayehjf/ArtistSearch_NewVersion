@@ -1,0 +1,111 @@
+<div class="artist-container" *ngIf="artistId">
+  <!-- <div class="alert alert-danger" *ngIf="collectionState.error">
+    {{ collectionState.error }}
+  </div> -->
+
+  <nav class="tab-nav">
+    <button [class.active]="uiState.activeTab === 'bio'" 
+            (click)="uiState.activeTab = 'bio'">
+      Biography
+    </button>
+    <button [class.active]="uiState.activeTab === 'works'" 
+            (click)="uiState.activeTab = 'works'">
+      Artworks
+    </button>
+  </nav>
+
+  <div *ngIf="uiState.activeTab === 'bio'">
+    <div class="spinner-container" *ngIf="loadingStates.artist">
+      <div class="spinner-border text-primary"></div>
+    </div>
+
+    <div *ngIf="currentArtist && !loadingStates.artist" class="artist-bio">
+        <div class="alert alert-danger" *ngIf="someBiographyError">{{ someBiographyError }}</div>
+
+      <div class="header-section">
+        <h1>{{ currentArtist.name }}</h1>
+        <button *ngIf="authService.isAuthenticated" 
+                class="favorite-btn"
+                (click)="toggleFavorite()">
+          {{ collectionState.isFavorite ? '★ Favorited' : '☆ Add to Favorites' }}
+        </button>
+      </div>
+
+      <div class="details-section">
+        <p *ngIf="currentArtist.birthday">
+          <strong>Years:</strong>
+          {{ currentArtist.birthday }}
+          <span *ngIf="currentArtist.deathday"> – {{ currentArtist.deathday }}</span>
+        </p>
+        <p *ngIf="currentArtist.nationality">
+          <strong>Nationality:</strong> {{ currentArtist.nationality }}
+        </p>
+        <p *ngIf="currentArtist.biography" class="bio-text">
+          {{ currentArtist.biography }}
+        </p>
+      </div>
+
+      <section *ngIf="similarArtists.length" class="similar-section">
+        <h3>Similar Artists</h3>
+        <div class="similar-grid">
+          <div class="similar-card" 
+               *ngFor="let artist of similarArtists"
+               (click)="router.navigate(['/artist', artist.id])">
+            <h4>{{ artist.name }}</h4>
+            <p>{{ artist.nationality }}</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div *ngIf="uiState.activeTab === 'works'">
+    <div class="alert alert-danger" *ngIf="collectionState.error && !loadingStates.artworks">
+      {{ collectionState.error }}
+    </div>
+    <div class="spinner-container" *ngIf="loadingStates.artworks">
+      <div class="spinner-border text-primary"></div>
+    </div>
+    <div class="empty-artworks" *ngIf="!loadingStates.artworks && artworks.length === 0">
+      No artworks found
+    </div>
+
+    <div class="artworks-grid" *ngIf="!loadingStates.artworks && artworks.length > 0">
+      <div class="artwork-card" *ngFor="let work of artworks">
+        <img [src]="work.image || 'assets/default-artwork.png'" 
+             [alt]="work.title">
+        <div class="artwork-info">
+          <h3>{{ work.title }}</h3>
+          <p *ngIf="work.date">{{ work.date }}</p>
+          <button class="btn-categories" 
+                  (click)="viewCategories(work)">
+            View Categories
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" 
+       *ngIf="uiState.showCategoryModal"
+       (click)="uiState.showCategoryModal = false"></div>
+
+  <div class="category-modal" *ngIf="uiState.showCategoryModal">
+    <div class="modal-header">
+      <h2>Categories for {{ uiState.modalTitle }}</h2>
+      <button class="close-btn" (click)="uiState.showCategoryModal = false">×</button>
+    </div>
+    
+    <div class="modal-content">
+      <div class="spinner-border" *ngIf="loadingStates.categories"></div>
+      
+      <div class="categories-grid">
+        <div class="category-item" *ngFor="let cat of currentCategories">
+          <img [src]="cat.image || 'assets/default-category.png'" 
+               [alt]="cat.name">
+          <span>{{ cat.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

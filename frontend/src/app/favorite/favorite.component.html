@@ -1,0 +1,47 @@
+<div class="collection-container">
+
+    <div *ngIf="state.isLoading" class="loading-overlay">
+      <div class="loading-spinner"></div>
+    </div>
+  
+    <div *ngIf="state.errorMessage" class="error-alert">
+      {{ state.errorMessage }}
+    </div>
+  
+    <div *ngIf="!state.hasItems && !state.isLoading" class="empty-state">
+      <p>No favorite artists</p>
+    </div>
+  
+    <div *ngIf="state.hasItems" class="collection-grid">
+      <div class="collection-card" *ngFor="let item of state.collectionItems">
+      
+      <!-- Blurred background image -->
+      <div
+        class="card-media"
+        [style.background-image]="'url(' + (item.thumbnailUrl || 'assets/default-artist.svg') + ')'"
+      ></div>
+      
+      <!-- Overlay text at the bottom (name, date range, nationality, time, Remove button) -->
+      <div class="card-overlay">
+        <h3 class="item-title">{{ item.displayName }}</h3>
+        <!-- Example: "1881 - 1973" and "Spanish" -->
+        <p class="item-subtitle">
+          <ng-container *ngIf="item.birthday || item.deathday">
+            <span *ngIf="item.birthday">{{ item.birthday }}</span>
+            <span *ngIf="item.deathday"> – {{ item.deathday }}</span>
+            <br />
+          </ng-container>
+          <span *ngIf="item.nationality">{{ item.nationality }}</span>
+        </p>
+        <p class="item-timestamp">
+          {{ calculateTimeDifference(item.timestamp) }}
+        </p>
+        <button
+          class="remove-button"
+          (click)="removeFromCollection(item.identifier)"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+  </div>

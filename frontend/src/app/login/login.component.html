@@ -1,0 +1,51 @@
+<div class="login-container">
+    <h1 class="panel-title">Login</h1>
+  
+    <div class="error-alert" *ngIf="submissionState.lastError">
+      {{ submissionState.lastError }}
+    </div>
+  
+    <form [formGroup]="loginForm" (ngSubmit)="initiateAuth()">
+      <div class="form-group">
+        <label for="credentialField" class="form-label">Email Address</label>
+        <input 
+          type="email" 
+          id="credentialField"
+          formControlName="credential"
+          placeholder="Enter email"
+        >
+        <div class="validation-hint" *ngIf="credential?.invalid && (credential?.dirty || credential?.touched)">
+          <span *ngIf="credential?.errors?.['required']">Required field</span>
+          <span *ngIf="credential?.errors?.['email']">Invalid email format</span>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="secretField" class="form-label">Password</label>
+        <input 
+          type="password" 
+          id="secretField"
+          formControlName="secret"
+          placeholder="Password"
+        >
+        <div class="validation-hint" *ngIf="secret?.invalid && (secret?.dirty || secret?.touched)">
+          <span *ngIf="secret?.errors?.['required']">Required field</span>
+          <span *ngIf="secret?.errors?.['minlength']">Minimum 6 characters</span>
+        </div>
+      </div>
+  
+      <button 
+        class="btn btn-primary w-100 mb-3" 
+        type="submit"
+        [disabled]="submissionState.processing"
+      >
+        <span class="spinner" *ngIf="submissionState.processing"></span>
+        Grant Access
+      </button>
+    </form>
+  
+    <div class="panel-footer">
+      <span>Dont have an account yet? </span>
+      <a class="nav-link" routerLink="/registration">Create Account</a>
+    </div>
+</div>

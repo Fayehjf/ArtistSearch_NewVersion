@@ -1,0 +1,24 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "module": "es2022",
+    "moduleResolution": "node",
+    "target": "es2022",
+    "lib": ["es2022", "dom"],
+    "paths": {
+      "@angular/*": ["node_modules/@angular/*"]
+    },
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "types": [],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "files": [
+    "src/main.ts",
+  ],
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "../backend/public/distackend/public/dist"]
+}

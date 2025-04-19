@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">Artist Search</a>
+
+    <!-- Collapsed/expanded toggler (optional) -->
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      (click)="toggleMobileMenu()"
+      aria-controls="navbarNav" 
+      aria-expanded="false" 
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div 
+      class="collapse navbar-collapse" 
+      [ngClass]="{ 'show': isMobileMenuOpen }"
+      id="navbarNav"
+    >
+      <ul class="navbar-nav ms-auto">
+        
+        <!-- Always visible: the Search link -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/search" routerLinkActive="active">Search</a>
+        </li>
+
+        <!-- IF user is NOT logged in: Show Log In / Register -->
+        <ng-container *ngIf="!currentUser">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login" routerLinkActive="active">Log In</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/register" routerLinkActive="active">Register</a>
+          </li>
+        </ng-container>
+
+        <!-- IF user is logged in: Show Favorites / Avatar & Dropdown -->
+        <ng-container *ngIf="currentUser">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/favorites" routerLinkActive="active">Favorites</a>
+          </li>
+          
+          <!-- Avatar Dropdown Example -->
+          <li class="nav-item dropdown" [class.show]="isDropdownOpen">
+            <a 
+              class="nav-link dropdown-toggle d-flex align-items-center" 
+              href="javascript:void(0)" 
+              id="profileDropdown"
+              role="button"
+              (click)="isDropdownOpen = !isDropdownOpen"
+              [attr.aria-expanded]="isDropdownOpen"
+            >
+              <!-- Show the user’s avatar -->
+              <img 
+                [src]="currentUser.avatarUrl" 
+                alt="User Avatar"
+                style="width: 32px; height: 32px; border-radius: 50%; margin-right: 0.5rem;"
+              />
+              {{ currentUser.displayName }}
+            </a>
+            <div class="dropdown-menu dropdown-menu-end" 
+                 [class.show]="isDropdownOpen" 
+                 aria-labelledby="profileDropdown">
+              <a 
+                class="dropdown-item" 
+                (click)="initiateSignOut()"
+                href="javascript:void(0)"
+              >
+                Log out
+              </a>
+              <a 
+                class="dropdown-item text-danger" 
+                (click)="requestAccountRemoval()"
+                href="javascript:void(0)"
+              >
+                Delete account
+              </a>
+            </div>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const environment = {\n  production: false,\n  backendUrl: 'https://artistsearch9898.wl.r.appspot.com',\n  enableDebug: true\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
