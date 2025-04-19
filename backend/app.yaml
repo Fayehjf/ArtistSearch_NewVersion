@@ -3,8 +3,7 @@ service: default
 entrypoint: node app.js
 env_variables:
   NODE_ENV: production
-  MONGO_URI: mongodb+srv://artists_app_user:Artists_2025!@artistscluster.hgq0u.mongodb.net/HW3?retryWrites=true&w=majority&appName=ArtistsCluster
-  JWT_SECRET: b788f89cdd2a0733c98c5a5c861271b92b528953162578976a4df0149bed9227
-  ARTSY_CLIENT_ID: dcfe2d848259cc6351d2
-  ARTSY_CLIENT_SECRET: 155bfc778263f2230d5b2b4e9084b04b
-
+  MONGO_URI: [YOUR_MONGO_URI]
+  JWT_SECRET: [YOUR_JWT_SECRET]
+  ARTSY_CLIENT_ID: [YOUR_ARTSY_CLIENT_ID]
+  ARTSY_CLIENT_SECRET: [YOUR_ARTSY_CLIENT_SECRET]
