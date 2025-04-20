@@ -7,7 +7,8 @@ This full‑stack web application lets users search the Artsy art database, expl
 
 > Live site: **https://artistsearch9898.wl.r.appspot.com/search**
 
-Search Aritst as guest
+### Search Aritst as guest
+
 | Desktop | Mobile |
 |---------|--------|
 | ![image](https://github.com/user-attachments/assets/4224a9b7-4a63-402e-80ac-85d7e2d44b40)| ![image](https://github.com/user-attachments/assets/f9b031ad-1482-4656-8a21-56a3d23e05bd)|
