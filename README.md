@@ -26,7 +26,6 @@ Search Aritst as guest
 6. [Project Structure](#project-structure)
 7. [Roadmap](#roadmap)
 8. [Contributing](#contributing)
-9. [License](#license)
 
 ---
 
@@ -72,8 +71,69 @@ Search Aritst as guest
 ---
 
 ## 🚀 Getting Started
-1. **Clone**
-   ```bash
-   git clone https://github.com/<USER>/<REPO>.git
-   cd <REPO>
+### Prerequisites
+- Node 20+ & npm 9+
+- Angular CLI 17 (`npm install -g @angular/cli`)
+- A free MongoDB Atlas cluster
+- (Optional) Google Cloud SDK (`gcloud`)
 
+### 1. Clone & Install
+```bash
+git clone https://github.com/<USER>/<REPO>.git
+cd <REPO>
+
+# Install backend dependencies
+cd backend && npm ci
+
+# Install frontend dependencies
+cd ../frontend && npm ci
+
+```
+
+### 2. Environment Variables
+
+Create a file backend/.env with the following contents:
+
+```env
+
+PORT=8080
+JWT_SECRET=your_jwt_secret
+MONGO_URI=mongodb+srv://<user>:<pass>@cluster0.mongodb.net/artistsearch
+ARTSY_CLIENT_ID=<your_artsy_client_id>
+ARTSY_CLIENT_SECRET=<your_artsy_client_secret>
+FRONTEND_URL=http://localhost:4200
+
+```
+### 1. Clone & Install
+```bash
+git clone https://github.com/<USER>/<REPO>.git
+cd <REPO>
+
+# Install backend dependencies
+cd backend && npm install
+
+# Install frontend dependencies
+cd ../frontend && npm install
+
+```
+### 3. Run Locally
+```bash
+# In terminal 1 (backend)
+cd backend && node app.js      # nodemon on http://localhost:3000
+
+# In terminal 2 (frontend)
+cd frontend && ng serve       # ng serve on http://localhost:4200
+
+```
+
+### 4. Build & Deploy
+```bash
+# Build Angular app into backend/public
+cd frontend && ng build
+
+# Move the /dist to backend/public
+
+# Deploy full app to Google App Engine
+gcloud app deploy
+
+```
