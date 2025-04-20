@@ -30,7 +30,7 @@ Search Aritst as guest
 
 ---
 
-## Features
+## 🌟 Features
 
 | Category | Highlights |
 |----------|-----------|
@@ -44,7 +44,7 @@ Search Aritst as guest
 
 ---
 
-## Architecture
+## 🏛 Architecture
 
 ```text
 ┌────────────────────────────────────────────────────────┐
@@ -57,3 +57,22 @@ Search Aritst as guest
 │     MongoDB Atlas ←─────┴─►• Favorites persistence  │  │
 │                         │  • bcrypt password hash   │  │
 └─────────────────────────┴──────────────────────────────┘
+
+---
+
+## ⚙️ Tech Stack
+| Layer       | Technology |
+|-------------|------------|
+| **Frontend**| Angular 17 · TypeScript · RxJS · Bootstrap 5 · SCSS |
+| **Backend** | Node.js 20 · Express · Axios · bcrypt · jsonwebtoken · cookie‑parser |
+| **Database**| MongoDB Atlas (free tier) |
+| **CI / CD** | GitHub Actions · Google Cloud App Engine |
+
+---
+
+## 🚀 Getting Started
+1. **Clone**
+   ```bash
+   git clone https://github.com/<USER>/<REPO>.git
+   cd <REPO>
+
