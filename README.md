@@ -57,6 +57,7 @@ Search Aritst as guest
 │     MongoDB Atlas ←─────┴─►• Favorites persistence  │  │
 │                         │  • bcrypt password hash   │  │
 └─────────────────────────┴──────────────────────────────┘
+```
 
 ---
 
