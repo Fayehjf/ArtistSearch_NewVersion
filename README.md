@@ -24,8 +24,6 @@ Search Aritst as guest
 4. [Getting Started](#getting-started)
 5. [API Reference](#api-reference)
 6. [Project Structure](#project-structure)
-7. [Roadmap](#roadmap)
-8. [Contributing](#contributing)
 
 ---
 
@@ -137,3 +135,76 @@ cd frontend && ng build
 gcloud app deploy
 
 ```
+---
+
+## 📑 API Reference
+
+| Method  | Endpoint                        | Description                           | Auth   |
+|---------|---------------------------------|---------------------------------------|--------|
+| `GET`   | `/api/search?q={term}`          | Search top 10 artists by name         | Public |
+| `GET`   | `/api/artist/{id}`              | Retrieve artist info + similar list   | Public |
+| `GET`   | `/api/artworks?artist_id={id}`  | List up to 10 artworks for an artist   | Public |
+| `GET`   | `/api/genes?artwork_id={id}`    | Get categories (genes) for an artwork  | Public |
+| `POST`  | `/api/register`                 | Register a new user                   | Guest  |
+| `POST`  | `/api/login`                    | Log in and set JWT cookie             | Guest  |
+| `POST`  | `/api/logout`                   | Log out (clear cookie)                | Auth   |
+| `DELETE`| `/api/profile`                  | Delete user & favorites               | Auth   |
+| `GET`   | `/api/favorites`                | List user’s favorite artists          | Auth   |
+| `PATCH` | `/api/favorites/{artistId}`     | Toggle favorite on/off                | Auth   |
+
+---
+
+## 🗂 Project Structure
+
+```text
+<repo-root>/
+├── backend/
+│   ├── config/                  # configuration files (e.g. database, artsy credentials)
+│   ├── models/                  # Mongoose schemas
+│   ├── routes/                  # Express route handlers
+│   │   ├── artsy.js
+│   │   ├── auth.js
+│   │   ├── genes.js
+│   │   └── notifications.js
+│   ├── utils/                   # helper modules (e.g. Artsy client, middlewares)
+│   ├── public/                  # files served by Express
+│   │   ├── assets/              # static assets (images, logos)
+│   │   ├── dist/                # built frontend SPA
+│   │   └── index.html
+│   ├── .env                     # environment variables (not committed)
+│   ├── .gcloudignore            # GCP deployment ignore rules
+│   ├── .gitignore
+│   ├── app.js                   # Express server entry point
+│   ├── app.yaml                 # GCP App Engine configuration
+│   ├── package.json
+│   └── package-lock.json
+└── frontend/
+    ├── .angular/                # Angular CLI cache
+    ├── node_modules/
+    ├── src/
+    │   ├── app/
+    │   │   ├── artist/          # ArtistDetail feature module
+    │   │   ├── favorite/        # Favorites page module
+    │   │   ├── login/           # Login page module
+    │   │   ├── navbar/          # Header/navbar component
+    │   │   ├── notification/    # Global toaster component
+    │   │   ├── register/        # Registration page module
+    │   │   ├── search/          # Search page module
+    │   │   ├── services/        # shared services (AuthService, ApiService, etc.)
+    │   │   ├── app-routing.module.ts
+    │   │   ├── app.component.html
+    │   │   ├── app.component.scss
+    │   │   ├── app.component.ts
+    │   │   └── app.module.ts
+    │   ├── assets/              # images, icons, styles
+    │   ├── environments/        # dev & prod environment configs
+    │   ├── index.html           # SPA entry point
+    │   ├── main.ts              # Angular bootstrap
+    │   └── styles.scss          # global styles
+    ├── angular.json
+    ├── package.json
+    ├── package-lock.json
+    ├── tsconfig.app.json
+    ├── tsconfig.json
+    └── .gcloudignore            # GCP deployment ignore rules for frontend
+
