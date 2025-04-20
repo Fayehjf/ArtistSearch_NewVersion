@@ -1,13 +1,6 @@
 # 🎨 Artist Search Platform
 This full‑stack web application lets users search the Artsy art database, explore artists and their works, and curate a personal “favorite artists” list. It is built with an Angular 17 + TypeScript frontend and a Node.js 20 / Express backend that proxies all Artsy requests and persists user data in MongoDB Atlas. Everything is containerised and deployed to Google Cloud App Engine, so a single publicly‑hosted URL serves both the SPA and its JSON API. ​
 
-> Full‑stack web app for discovering artists & artworks via the Artsy API,  
-> built with Angular 17 + Bootstrap 5 on the front end and Node.js 20 / Express on the back end.
-
-[![Deploy to GCP](https://img.shields.io/badge/GCP-App%20Engine-blue?logo=googlecloud)](https://artistsearch9898.wl.r.appspot.com)
-[![Build](https://img.shields.io/github/actions/workflow/status/<USER>/<REPO>/ci.yml?label=Build&logo=github)](https://github.com/<USER>/<REPO>/actions)
-[![License](https://img.shields.io/github/license/<USER>/<REPO>)](LICENSE)
-
 ---
 
 ## ✨ Demo
