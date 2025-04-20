@@ -4,7 +4,7 @@ This full‑stack web application lets users search the Artsy art database, expl
 > Full‑stack web app for discovering artists & artworks via the Artsy API,  
 > built with Angular 17 + Bootstrap 5 on the front end and Node.js 20 / Express on the back end.
 
-[![Deploy to GCP](https://img.shields.io/badge/GCP-App%20Engine-blue?logo=googlecloud)](https://<your‑project>.appspot.com)
+[![Deploy to GCP](https://img.shields.io/badge/GCP-App%20Engine-blue?logo=googlecloud)](https://artistsearch9898.wl.r.appspot.com)
 [![Build](https://img.shields.io/github/actions/workflow/status/<USER>/<REPO>/ci.yml?label=Build&logo=github)](https://github.com/<USER>/<REPO>/actions)
 [![License](https://img.shields.io/github/license/<USER>/<REPO>)](LICENSE)
 
