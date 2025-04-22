@@ -13,6 +13,15 @@ This full‑stack web application lets users search the Artsy art database, expl
 |---------|--------|
 | ![image](https://github.com/user-attachments/assets/4224a9b7-4a63-402e-80ac-85d7e2d44b40)| ![image](https://github.com/user-attachments/assets/f9b031ad-1482-4656-8a21-56a3d23e05bd)|
 
+### Search Aritst as user
+
+| Desktop | Mobile |
+|---------|--------|
+|![image](https://github.com/user-attachments/assets/b5a19676-ae93-4fcc-a595-562e69fc9f25)| ![image](https://github.com/user-attachments/assets/fd5c6f6c-3a36-4800-8fdd-de204f0fcbc9)|
+
+### User's favorite
+
+![image](https://github.com/user-attachments/assets/a47d6d88-9679-4585-93fb-facb6ac0bd48)
 
 
 ---
